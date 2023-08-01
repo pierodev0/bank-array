@@ -44,8 +44,14 @@ createUsername(accounts);
 LOGIN
 ====================================*/
 
-console.log(accounts);
+let currentAcount;
 
 btnLogin.addEventListener('click', (e) => {
   e.preventDefault();
+  currentAcount = accounts.find( obj => obj.username === inputLoginUsername.value);
+
+  if(currentAcount && currentAcount.pin === Number(inputLoginPin.value)){
+    containerApp.style.opacity = 100;
+  }
+
 });
