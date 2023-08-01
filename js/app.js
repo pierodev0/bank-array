@@ -27,3 +27,25 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+
+function createUsername(accounts) {
+   accounts.forEach( account => {
+    account.username = account.owner
+    .split(' ')
+    .map((word) => word[0])
+    .join('')
+    .toLowerCase();
+   })
+}
+
+createUsername(accounts);
+
+/*====================================
+LOGIN
+====================================*/
+
+console.log(accounts);
+
+btnLogin.addEventListener('click', (e) => {
+  e.preventDefault();
+});
