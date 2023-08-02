@@ -29,13 +29,13 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 function createUsername(accounts) {
-   accounts.forEach( account => {
+  accounts.forEach((account) => {
     account.username = account.owner
-    .split(' ')
-    .map((word) => word[0])
-    .join('')
-    .toLowerCase();
-   })
+      .split(' ')
+      .map((word) => word[0])
+      .join('')
+      .toLowerCase();
+  });
 }
 
 createUsername(accounts);
@@ -48,10 +48,30 @@ let currentAcount;
 
 btnLogin.addEventListener('click', (e) => {
   e.preventDefault();
-  currentAcount = accounts.find( obj => obj.username === inputLoginUsername.value);
+  currentAcount = accounts.find((obj) => obj.username === inputLoginUsername.value);
 
-  if(currentAcount && currentAcount.pin === Number(inputLoginPin.value)){
+  if (currentAcount && currentAcount.pin === Number(inputLoginPin.value)) {
     containerApp.style.opacity = 100;
   }
-
 });
+
+console.log(accounts);
+/*====================================
+Show movements
+====================================*/
+function displayMovements(movements) {
+  containerMovements.innerHTML = '';
+  movements.forEach((mov, i) => {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `
+    <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+        <div class="movements__date">3 days ago</div>
+        <div class="movements__value">${mov}€</div>
+      </div>`;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+}
+
+displayMovements(movements);
