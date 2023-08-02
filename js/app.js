@@ -54,10 +54,39 @@ btnLogin.addEventListener('click', e => {
 
   if (currentAcount && currentAcount.pin === Number(inputLoginPin.value)) {
     //Show UI
+    labelWelcome.textContent = "Welcome, " + currentAcount.owner.split(" ")[0];
     containerApp.style.opacity = 100;
     updateUI(currentAcount);
     inputLoginPin.value = inputLoginUsername.value = '';
     inputLoginPin.blur();
+  }
+});
+
+/*====================================
+Transfer money
+====================================*/
+btnTransfer.addEventListener('click', e => {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiveAccount = accounts.find(
+    obj => obj.username === inputTransferTo.value
+  );
+  console.log(amount, receiveAccount);
+
+  //Validate
+  if (
+    amount > 0 &&    
+    receiveAccount &&
+    amount < currentAcount.balance &&
+    currentAcount.username !== receiveAccount.username
+  ) {
+    currentAcount.movements.push(-amount);
+    receiveAccount.movements.push(amount);
+
+    inputTransferAmount.value = inputTransferTo.value = "";
+    inputTransferAmount.blur();
+
+    updateUI(currentAcount);
   }
 });
 
