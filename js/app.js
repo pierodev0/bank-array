@@ -53,8 +53,8 @@ btnLogin.addEventListener('click', e => {
   );
 
   if (currentAcount && currentAcount.pin === Number(inputLoginPin.value)) {
+      labelWelcome.textContent = "Welcome, " + currentAcount.owner.split(" ")[0];
     //Show UI
-    labelWelcome.textContent = "Welcome, " + currentAcount.owner.split(" ")[0];
     containerApp.style.opacity = 100;
     updateUI(currentAcount);
     inputLoginPin.value = inputLoginUsername.value = '';
@@ -90,7 +90,24 @@ btnTransfer.addEventListener('click', e => {
   }
 });
 
-console.log(accounts);
+/*====================================
+Close account
+====================================*/
+btnClose.addEventListener("click", e => {
+    e.preventDefault();
+
+    if(currentAcount.username === inputCloseUsername.value && currentAcount.pin === Number(inputClosePin.value)){
+        const indexAccount = accounts.findIndex( obj => obj.username === currentAcount.username);
+        
+        //Delete account
+        accounts.splice(indexAccount,1);
+        //Hide UI
+        containerApp.style.opacity = 0;
+        labelWelcome.textContent = "Login in to get started";
+    }
+
+})
+
 /*====================================
 Show movements
 ====================================*/
