@@ -87,8 +87,8 @@ Calc Summary
 ====================================*/
 
 function displaySummary(account) {
-  const balance = account.movements.reduce((acc, curr) => acc + curr, 0);
-  labelBalance.textContent = `${balance}€`;
+  account.balance = account.movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.textContent = `${account.balance}€`;
 
   const incomes = account.movements
     .filter(val => val > 0)
