@@ -59,9 +59,9 @@ console.log(accounts);
 /*====================================
 Show movements
 ====================================*/
-function displayMovements(movements) {
+function displayMovements(account) {
   containerMovements.innerHTML = '';
-  movements.forEach((mov, i) => {
+  account.movements.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
@@ -73,5 +73,29 @@ function displayMovements(movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 }
+displayMovements(account1);
 
-displayMovements(movements);
+/*====================================
+Calc Summary
+====================================*/
+
+function displaySummary(account) {
+  const balance = account.movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.textContent = `${balance}€`;
+
+  const incomes = account.movements.filter((val) => val > 0).reduce((acc, curr) => acc + curr, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = account.movements.filter((val) => val < 0).reduce((acc, curr) => acc + curr, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = account.movements
+    .map((val) => (val * 1) / 100)
+    .filter((val) => val > 1)
+    .reduce((acc, curr) => acc + curr);
+
+labelSumInterest.textContent = `${interest}€`
+  console.log(interest);
+}
+
+displaySummary(account1);
