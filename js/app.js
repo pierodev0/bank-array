@@ -29,10 +29,10 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 function createUsername(accounts) {
-  accounts.forEach((account) => {
+  accounts.forEach(account => {
     account.username = account.owner
       .split(' ')
-      .map((word) => word[0])
+      .map(word => word[0])
       .join('')
       .toLowerCase();
   });
@@ -46,12 +46,18 @@ LOGIN
 
 let currentAcount;
 
-btnLogin.addEventListener('click', (e) => {
+btnLogin.addEventListener('click', e => {
   e.preventDefault();
-  currentAcount = accounts.find((obj) => obj.username === inputLoginUsername.value);
+  currentAcount = accounts.find(
+    obj => obj.username === inputLoginUsername.value
+  );
 
   if (currentAcount && currentAcount.pin === Number(inputLoginPin.value)) {
+    //Show UI
     containerApp.style.opacity = 100;
+    updateUI(currentAcount);
+    inputLoginPin.value = inputLoginUsername.value = '';
+    inputLoginPin.blur();
   }
 });
 
@@ -65,7 +71,9 @@ function displayMovements(account) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
-        <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+        <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
         <div class="movements__date">3 days ago</div>
         <div class="movements__value">${mov}€</div>
       </div>`;
@@ -73,7 +81,6 @@ function displayMovements(account) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 }
-displayMovements(account1);
 
 /*====================================
 Calc Summary
@@ -83,19 +90,28 @@ function displaySummary(account) {
   const balance = account.movements.reduce((acc, curr) => acc + curr, 0);
   labelBalance.textContent = `${balance}€`;
 
-  const incomes = account.movements.filter((val) => val > 0).reduce((acc, curr) => acc + curr, 0);
+  const incomes = account.movements
+    .filter(val => val > 0)
+    .reduce((acc, curr) => acc + curr, 0);
   labelSumIn.textContent = `${incomes}€`;
 
-  const out = account.movements.filter((val) => val < 0).reduce((acc, curr) => acc + curr, 0);
+  const out = account.movements
+    .filter(val => val < 0)
+    .reduce((acc, curr) => acc + curr, 0);
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
   const interest = account.movements
-    .map((val) => (val * 1) / 100)
-    .filter((val) => val > 1)
+    .map(val => val * (account.interestRate / 100))
+    .filter(val => val > 1)
     .reduce((acc, curr) => acc + curr);
 
-labelSumInterest.textContent = `${interest}€`
-  console.log(interest);
+  labelSumInterest.textContent = `${interest}€`;
 }
 
-displaySummary(account1);
+/*====================================
+UPDATE UI
+====================================*/
+function updateUI(account) {
+  displayMovements(account);
+  displaySummary(account);
+}
