@@ -53,7 +53,7 @@ btnLogin.addEventListener('click', e => {
   );
 
   if (currentAcount && currentAcount.pin === Number(inputLoginPin.value)) {
-      labelWelcome.textContent = "Welcome, " + currentAcount.owner.split(" ")[0];
+    labelWelcome.textContent = 'Welcome, ' + currentAcount.owner.split(' ')[0];
     //Show UI
     containerApp.style.opacity = 100;
     updateUI(currentAcount);
@@ -71,11 +71,10 @@ btnTransfer.addEventListener('click', e => {
   const receiveAccount = accounts.find(
     obj => obj.username === inputTransferTo.value
   );
-  console.log(amount, receiveAccount);
 
   //Validate
   if (
-    amount > 0 &&    
+    amount > 0 &&
     receiveAccount &&
     amount < currentAcount.balance &&
     currentAcount.username !== receiveAccount.username
@@ -83,7 +82,7 @@ btnTransfer.addEventListener('click', e => {
     currentAcount.movements.push(-amount);
     receiveAccount.movements.push(amount);
 
-    inputTransferAmount.value = inputTransferTo.value = "";
+    inputTransferAmount.value = inputTransferTo.value = '';
     inputTransferAmount.blur();
 
     updateUI(currentAcount);
@@ -93,20 +92,24 @@ btnTransfer.addEventListener('click', e => {
 /*====================================
 Close account
 ====================================*/
-btnClose.addEventListener("click", e => {
-    e.preventDefault();
+btnClose.addEventListener('click', e => {
+  e.preventDefault();
 
-    if(currentAcount.username === inputCloseUsername.value && currentAcount.pin === Number(inputClosePin.value)){
-        const indexAccount = accounts.findIndex( obj => obj.username === currentAcount.username);
-        
-        //Delete account
-        accounts.splice(indexAccount,1);
-        //Hide UI
-        containerApp.style.opacity = 0;
-        labelWelcome.textContent = "Login in to get started";
-    }
+  if (
+    currentAcount.username === inputCloseUsername.value &&
+    currentAcount.pin === Number(inputClosePin.value)
+  ) {
+    const indexAccount = accounts.findIndex(
+      obj => obj.username === currentAcount.username
+    );
 
-})
+    //Delete account
+    accounts.splice(indexAccount, 1);
+    //Hide UI
+    containerApp.style.opacity = 0;
+    labelWelcome.textContent = 'Login in to get started';
+  }
+});
 
 /*====================================
 Show movements
@@ -147,9 +150,10 @@ function displaySummary(account) {
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
   const interest = account.movements
+    .filter(value => value > 0)
     .map(val => val * (account.interestRate / 100))
     .filter(val => val > 1)
-    .reduce((acc, curr) => acc + curr);
+    .reduce((acc, curr) => acc + curr, 0);
 
   labelSumInterest.textContent = `${interest}€`;
 }
