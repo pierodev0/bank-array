@@ -1,0 +1,16 @@
+{
+    "console-ninja.toolsToEnableSupportAutomaticallyFor": {
+        "live-server-extension": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.vscode": true,
+        "**/.gitignore": true
+    },
+    "explorerExclude.backup": {}
+}
